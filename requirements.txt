@@ -1,0 +1,32 @@
+# requirements.txt — Pinned production dependencies for PayrollAgent
+#
+# Security note:
+#   All versions are pinned to prevent dependency confusion and supply-chain
+#   attacks. Before upgrading any package, review its changelog and verify
+#   the new SHA-256 hash via: pip download <pkg>==<ver> && pip hash <file>
+#
+# Build command (enforces hashes):
+#   pip install --require-hashes -r requirements.txt
+#
+# To regenerate hashes after a version bump:
+#   pip-compile --generate-hashes requirements.in
+#   (install pip-tools: pip install pip-tools)
+#
+# ── Runtime dependencies ───────────────────────────────────────────────────────
+
+pywin32==311
+openpyxl==3.1.5
+
+# ── Build-time only ────────────────────────────────────────────────────────────
+
+pyinstaller==6.15.0
+
+# ── NOTE ON HASHES ─────────────────────────────────────────────────────────────
+# Hash entries (--hash=sha256:...) are intentionally omitted from this template
+# because hashes differ per platform/wheel. Generate them with pip-compile:
+#
+#   pip install pip-tools
+#   pip-compile --generate-hashes requirements.in -o requirements.txt
+#
+# Until hashes are added, remove --require-hashes from build_exe.bat or
+# generate the hashed file using pip-compile before the first enterprise build.
