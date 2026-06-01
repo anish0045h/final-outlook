@@ -150,17 +150,27 @@ def run():
                     log.warning(f"  → No valid records found in {filename}")
                     continue
 
-                period = records[0].get("Month", "Unknown_Period")
-                if period not in masters:
-                    safe_period = period.replace(" ", "_")
-                    base_dir = os.path.dirname(config.master_file_path)
-                    path = os.path.join(base_dir, f"master_payroll_{safe_period}.xlsx")
-                    masters[period] = MasterSheet(path)
+                
+                from collections import defaultdict
+                by_period: dict[str, list] = defaultdict(list)
+                for rec in records:
+                    by_period[rec.get("Month", "Unknown_Period")].append(rec)
 
-                added = masters[period].append_records(records)
-                total_rows_added += added
+                for period, period_records in by_period.items():
+                    if period not in masters:
+                        safe_period = period.replace(" ", "_")
+                        base_dir = os.path.dirname(config.master_file_path)
+                        path = os.path.join(base_dir, f"master_payroll_{safe_period}.xlsx")
+                        masters[period] = MasterSheet(path)
+
+                    added = masters[period].append_records(period_records)
+                    total_rows_added += added
+                    log.info(
+                        f"  → Appended {added} record(s) to "
+                        f"{period.replace(' ', '_')} from {filename}"
+                    )
+
                 total_files += 1
-                log.info(f"  → Appended {added} record(s) to {safe_period} from {filename}")
 
             except Exception as e:
                 msg = f"Failed to process {filename}: {e}"
