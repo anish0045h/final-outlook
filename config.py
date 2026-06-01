@@ -81,7 +81,7 @@ class Config:
             "allowed_extensions", [".xlsx", ".xls"]
         )
 
-        self.max_emails: int = int(ext.get("max_emails", 500))
+        self.max_emails: int = int(ext.get("max_emails", 9999))
 
         # ── Excel parsing ──────────────────────────────────────────────────────
         self.sheet_name: str        = ext.get("sheet_name", "Present absent")
