@@ -21,7 +21,6 @@ import pathlib
 import tempfile
 import datetime
 import win32com.client
-
 log = logging.getLogger(__name__)
 
 # ── Security constants ─────────────────────────────────────────────────────────
